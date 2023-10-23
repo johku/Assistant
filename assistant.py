@@ -57,6 +57,9 @@ class AssistantApp:
 
     def load_tasks(self):
         tasks = self.handler.load_tasks()
+        
+        if tasks == None:
+            return
 
         self.tasks = tasks
 
