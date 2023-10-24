@@ -14,7 +14,7 @@ class AssistantApp:
         self.engine = pyttsx3.init()
 
         # Initialize tasks
-        self.tasks = {}
+        self.tasks = []
         self.task_id = 1
         self.handler = data_handler.DataHandler()
 
@@ -28,22 +28,33 @@ class AssistantApp:
 
     def add_task(self):
         text = input("Enter task: ")
+        repeats = input("Generate repeating task? yes/no: ")
         date = input("Enter date dd:mm:yy: ")
         time = input("Enter time hh:mm: ")
+        
+        if repeats == 'yes':
+            repeats = True
+        else:
+            repeats = False
 
         date_list = date.split(":")
         time_list = time.split(":")
         task_datetime = datetime(int(date_list[2]) + 2000, int(date_list[1]), int(date_list[0]), int(time_list[0]), int(time_list[1]))
 
-        self.tasks[self.task_id] = (text, task_datetime)
+        self.tasks.append(Task(self.task_id, text, task_datetime, repeats))
         self.task_id += 1
 
         # Store task to tasks.csv
         self.handler.update_tasks(self.tasks)
 
     def delete_task(self):
-        task_id = input("Enter task id: ")
-        del self.tasks[task_id]
+        delete_id = int(input("Enter task id: "))
+        
+        for task in self.tasks:
+            if task.task_id == delete_id:
+                print("Task found and will be removed.")
+                self.tasks.remove(task)
+
         self.handler.update_tasks(self.tasks)
         
 
@@ -53,7 +64,7 @@ class AssistantApp:
             return
 
         for task in self.tasks:
-            print(f'{task}: {self.tasks[task][0]} {self.tasks[task][1].strftime("%Y-%m-%d %H:%M")}')
+            print(f'{task.task_id}: {task.task_text} {task.task_datetime.strftime("%Y-%m-%d %H:%M")}')
 
     def load_tasks(self):
         tasks = self.handler.load_tasks()
@@ -72,9 +83,9 @@ class AssistantApp:
             if self.tasks == None:
                 return
 
-            for id, values in self.tasks.items():
-                if current_time.year == values[1].year and current_time.month == values[1].month and current_time.day == values[1].day and current_time.hour == values[1].hour and current_time.minute == values[1].minute:
-                    self.engine.say(f"You have a task that requires your attention. The task is {values[0]}")
+            for task in self.tasks:
+                if current_time.year == task.task_datetime.year and current_time.month == task.task_datetime.month and current_time.day == task.task_datetime.day and current_time.hour == task.task_datetime.hour and current_time.minute == task.task_datetime.minute:
+                    self.engine.say(f"You have a task that requires your attention. The task is {task.task_text}")
                     self.engine.runAndWait()
             
             time.sleep(45)

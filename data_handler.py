@@ -4,6 +4,7 @@ import openai
 from dotenv import load_dotenv
 from datetime import datetime
 from datetime import timedelta
+from task import Task
 
 class DataHandler:
     def __init__(self):
@@ -37,18 +38,19 @@ class DataHandler:
         except Exception as e:
             print(f"Error emptying the CSV file: {e}")
 
-        for id, value in tasks.items():
-            task_id = id
+        for task in tasks:
+            task_id = task.task_id
 
-            task_text = value[0]
+            task_text = task.task_text
+            task_repeats = task.task_repeats
 
-            year = value[1].year
-            month = value[1].month
-            day = value[1].day
-            hour = value[1].hour
-            minute = value[1].minute
+            year = task.task_datetime.year
+            month = task.task_datetime.month
+            day = task.task_datetime.day
+            hour = task.task_datetime.hour
+            minute = task.task_datetime.minute
 
-            data = [task_id, task_text, year, month, day, hour, minute]
+            data = [task_id, task_text, year, month, day, hour, minute, task_repeats]
 
             try:
                 with open(file_name, mode='a', newline='') as file:
@@ -64,7 +66,7 @@ class DataHandler:
             script_dir = os.path.dirname(__file__)
             file_name = os.path.join(script_dir, "tasks.csv")
 
-            tasks = {}
+            tasks = []
 
             # Open the CSV file for reading
             with open(file_name, 'r') as file:
@@ -77,7 +79,8 @@ class DataHandler:
                     task_datetime = datetime(int(row[2]), int(row[3]), int(row[4]), int(row[5]), int(row[6]))
                     task_id = row[0]
                     task_text = row[1]
-                    tasks[task_id] = (task_text, task_datetime)
+                    task_repeats = row[7]
+                    tasks.append(Task(int(task_id), task_text, task_datetime, task_repeats))
 
             return tasks
         except Exception as e:
