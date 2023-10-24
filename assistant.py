@@ -29,17 +29,26 @@ class AssistantApp:
     def add_task(self):
         text = input("Enter task: ")
         repeats = input("Generate repeating task? yes/no: ")
-        date = input("Enter date dd:mm:yy: ")
-        time = input("Enter time hh:mm: ")
+
+        while True:
+            try:
+                date = input("Enter date dd:mm:yy: ")
+                time = input("Enter time hh:mm: ")
+
+                date_list = date.split(":")
+                time_list = time.split(":")
+                task_datetime = datetime(int(date_list[2]) + 2000, int(date_list[1]), int(date_list[0]), int(time_list[0]), int(time_list[1]))
+                break
+            except Exception as e:
+                print("Incorrect time format, try again.")
+                continue
+
         
         if repeats == 'yes':
             repeats = True
         else:
             repeats = False
 
-        date_list = date.split(":")
-        time_list = time.split(":")
-        task_datetime = datetime(int(date_list[2]) + 2000, int(date_list[1]), int(date_list[0]), int(time_list[0]), int(time_list[1]))
 
         self.tasks.append(Task(self.task_id, text, task_datetime, repeats))
         self.task_id += 1
@@ -73,6 +82,9 @@ class AssistantApp:
             return
 
         self.tasks = tasks
+
+        last_id = tasks[len(tasks) - 1].task_id
+        self.task_id = last_id + 1
 
     def check_tasks(self):
         # format: (1, 'test', datetime.datetime(2023, 5, 15, 15, 0))
