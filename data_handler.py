@@ -25,31 +25,6 @@ class DataHandler:
 
         return completion.choices[0].message.content
     
-    """    
-    def add_task(self, task):
-       # original format: (1, 'test', datetime.datetime(2023, 5, 15, 15, 0))
-        task_id = task[0]
-
-        task_text = task[1]
-
-        year = task[2].year
-        month = task[2].month
-        day = task[2].day
-        hour = task[2].hour
-        minute = task[2].minute
-
-        data = [task_id, task_text, year, month, day, hour, minute]
-
-        script_dir = os.path.dirname(__file__)
-        file_name = os.path.join(script_dir, "tasks.csv")
-
-        try:
-            with open(file_name, mode='a', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow(data)
-        except Exception as e:
-            print(f"Error writing to the CSV file: {e}")
-    """
 
     def update_tasks(self, tasks):
         # original format: {1: ('test2', datetime.datetime(2023, 2, 14, 14, 0))}
@@ -132,4 +107,30 @@ class DataHandler:
             print("The tasks.csv file was not found.")
         except Exception as e:
             print(f"An error occurred while loading tasks: {e}")
+    """
+
+    """    
+    def add_task(self, task):
+       # original format: (1, 'test', datetime.datetime(2023, 5, 15, 15, 0))
+        task_id = task[0]
+
+        task_text = task[1]
+
+        year = task[2].year
+        month = task[2].month
+        day = task[2].day
+        hour = task[2].hour
+        minute = task[2].minute
+
+        data = [task_id, task_text, year, month, day, hour, minute]
+
+        script_dir = os.path.dirname(__file__)
+        file_name = os.path.join(script_dir, "tasks.csv")
+
+        try:
+            with open(file_name, mode='a', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(data)
+        except Exception as e:
+            print(f"Error writing to the CSV file: {e}")
     """
