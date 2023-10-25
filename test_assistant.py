@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 from assistant import AssistantApp
 
-class TestMyModule(unittest.TestCase):
+class TestAssistant(unittest.TestCase):
     def setUp(self):
         self.app = AssistantApp()  # Create an instance of the AssistantApp for testing
 
