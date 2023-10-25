@@ -30,7 +30,7 @@ class AssistantApp:
         text = input("Enter task: ")
         repeats = input("Generate repeating task? yes/no: ")
 
-        while True:
+        for attempt in range(3):
             try:
                 date = input("Enter date dd:mm:yy: ")
                 time = input("Enter time hh:mm: ")
