@@ -43,6 +43,7 @@ class DataHandler:
 
             task_text = task.task_text
             task_repeats = task.task_repeats
+            task_repeat_interval = task.task_repeat_interval
 
             year = task.task_datetime.year
             month = task.task_datetime.month
@@ -50,7 +51,7 @@ class DataHandler:
             hour = task.task_datetime.hour
             minute = task.task_datetime.minute
 
-            data = [task_id, task_text, year, month, day, hour, minute, task_repeats]
+            data = [task_id, task_text, year, month, day, hour, minute, task_repeats, task_repeat_interval]
 
             try:
                 with open(file_name, mode='a', newline='') as file:
@@ -80,7 +81,8 @@ class DataHandler:
                     task_id = row[0]
                     task_text = row[1]
                     task_repeats = row[7]
-                    tasks.append(Task(int(task_id), task_text, task_datetime, task_repeats))
+                    task_repeat_interval = row[8]
+                    tasks.append(Task(int(task_id), task_text, task_datetime, task_repeats, int(task_repeat_interval)))
 
             return tasks
         except Exception as e:

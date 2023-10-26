@@ -67,7 +67,6 @@ class AssistantApp:
         
         for task in self.tasks:
             if task.task_id == delete_id:
-                print("Task found and will be removed.")
                 self.tasks.remove(task)
 
         self.handler.update_tasks(self.tasks)
@@ -106,10 +105,12 @@ class AssistantApp:
                     print(task.task_text)
                     self.engine.say(f"You have a task that requires your attention. The task is {task.task_text}")
                     self.engine.runAndWait()
-                    
-                    if task.task_repeats == True:
+                                        
+                    if task.task_repeats == True:                        
                         self.add_repeat_task(task)
-                        self.delete_task(task.task_id)
+                        task.task_datetime = task.task_datetime + timedelta(hours=1)
+                    else:
+                        task.task_datetime = task.task_datetime + timedelta(hours=1)
             
             time.sleep(45)
 
