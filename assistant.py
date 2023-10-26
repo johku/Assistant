@@ -30,6 +30,12 @@ class AssistantApp:
         text = input("Enter task: ")
         repeats = input("Generate repeating task? yes/no: ")
 
+        if repeats == 'yes':
+            repeat_interval = int(input("Enter repeat interval (days): "))
+            repeats = True
+        else:
+            repeats = False
+
         for attempt in range(3):
             try:
                 date = input("Enter date dd:mm:yy: ")
@@ -43,21 +49,14 @@ class AssistantApp:
                 print("Incorrect time format, try again.")
                 continue
 
-        
-        if repeats == 'yes':
-            repeats = True
-        else:
-            repeats = False
 
-
-        self.tasks.append(Task(self.task_id, text, task_datetime, repeats))
+        self.tasks.append(Task(self.task_id, text, task_datetime, repeats, repeat_interval))
         self.task_id += 1
 
         # Store task to tasks.csv
         self.handler.update_tasks(self.tasks)
 
-    def delete_task(self):
-        delete_id = int(input("Enter task id: "))
+    def delete_task(self, delete_id):
         
         for task in self.tasks:
             if task.task_id == delete_id:
@@ -97,19 +96,24 @@ class AssistantApp:
 
             for task in self.tasks:
                 if current_time.year == task.task_datetime.year and current_time.month == task.task_datetime.month and current_time.day == task.task_datetime.day and current_time.hour == task.task_datetime.hour and current_time.minute == task.task_datetime.minute:
+                    print(task.task_text)
                     self.engine.say(f"You have a task that requires your attention. The task is {task.task_text}")
                     self.engine.runAndWait()
+
+                    self.add_repeat_task(task)
+                    self.delete_task(task.task_id)
             
             time.sleep(45)
 
-    def repeat_task():
-        #create_next_task()
-        pass
+    def add_repeat_task(self, task):
+        task_datetime = task.task_datetime + timedelta(days=task.task_repeat_interval)
 
-    def create_next_task():
-        pass
+        self.tasks.append(Task(self.task_id, task.task_text, task_datetime, task.task_repeats, task.task_repeat_interval))
+        self.task_id += 1
+
+        self.handler.update_tasks(self.tasks)
+
         
-
 
     def main(self):
         # Load tasks from tasks.csv
@@ -136,7 +140,8 @@ class AssistantApp:
             elif option == "1":
                 self.add_task()
             elif option == "2":
-                self.delete_task()
+                delete_id = int(input("Enter task id: "))
+                self.delete_task(delete_id)
             elif option == "3":
                 self.print_tasks()
             else:
