@@ -7,6 +7,7 @@ class Task:
         self.task_datetime = task_datetime
         self.task_repeats = task_repeats
         self.task_repeat_interval = task_repeat_interval
+        self.task_repeat_added = False
 
     def __str__(self):
         return f"Task {self.task_id}: {self.task_text} (Due at {self.task_datetime})"

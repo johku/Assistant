@@ -106,11 +106,12 @@ class AssistantApp:
                     self.engine.say(f"You have a task that requires your attention. The task is {task.task_text}")
                     self.engine.runAndWait()
                                         
-                    if task.task_repeats == True:                        
+                    if task.task_repeats == True and task.task_repeat_added == False:                        
                         self.add_repeat_task(task)
-                        task.task_datetime = task.task_datetime + timedelta(hours=1)
-                    else:
-                        task.task_datetime = task.task_datetime + timedelta(hours=1)
+                        task.task_repeat_added = True
+
+                    # Add_repeat_task will run again when reminder runs
+                    task.task_datetime = task.task_datetime + timedelta(hours=1)
             
             time.sleep(45)
 
