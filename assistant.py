@@ -106,9 +106,10 @@ class AssistantApp:
                     print(task.task_text)
                     self.engine.say(f"You have a task that requires your attention. The task is {task.task_text}")
                     self.engine.runAndWait()
-
-                    self.add_repeat_task(task)
-                    self.delete_task(task.task_id)
+                    
+                    if task.task_repeats == True:
+                        self.add_repeat_task(task)
+                        self.delete_task(task.task_id)
             
             time.sleep(45)
 
