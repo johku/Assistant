@@ -123,6 +123,14 @@ class AssistantApp:
         self.handler.update_tasks(self.tasks)
 
 
+    def add_reminder(self, task):
+        #self.handler.add_reminder()
+        pass
+
+    
+    def clear_reminders(self):
+        #self.handler.clear_reminders()
+        pass
 
     def main(self):
         # Load tasks from tasks.csv
@@ -155,10 +163,6 @@ class AssistantApp:
                 self.print_tasks()
             else:
                 self.get_response(option)
-
-            # Check if there are any tasks that match current time here
-
-            #time.sleep(30)
 
 
 
