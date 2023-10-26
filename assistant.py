@@ -30,6 +30,8 @@ class AssistantApp:
         text = input("Enter task: ")
         repeats = input("Generate repeating task? yes/no: ")
 
+        repeat_interval = None
+
         if repeats == 'yes':
             repeat_interval = int(input("Enter repeat interval (days): "))
             repeats = True
@@ -49,8 +51,12 @@ class AssistantApp:
                 print("Incorrect time format, try again.")
                 continue
 
-
-        self.tasks.append(Task(self.task_id, text, task_datetime, repeats, repeat_interval))
+        
+        if repeat_interval == None:
+            self.tasks.append(Task(self.task_id, text, task_datetime, repeats))
+        else:
+            self.tasks.append(Task(self.task_id, text, task_datetime, repeats, repeat_interval))
+            
         self.task_id += 1
 
         # Store task to tasks.csv
@@ -113,7 +119,7 @@ class AssistantApp:
 
         self.handler.update_tasks(self.tasks)
 
-        
+
 
     def main(self):
         # Load tasks from tasks.csv
