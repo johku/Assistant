@@ -56,11 +56,12 @@ class AssistantApp:
             self.tasks.append(Task(self.task_id, text, task_datetime, repeats))
         else:
             self.tasks.append(Task(self.task_id, text, task_datetime, repeats, repeat_interval))
-            
+
         self.task_id += 1
 
         # Store task to tasks.csv
         self.handler.update_tasks(self.tasks)
+        return self.task_id - 1
 
     def delete_task(self, delete_id):
         

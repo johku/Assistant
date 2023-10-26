@@ -16,8 +16,8 @@ class TestAssistant(unittest.TestCase):
     @patch('builtins.input', side_effect=['test1', 'no','23:05:23', '15:00', '1'])
     def test_delete_task(self, mock_input):
 
-        self.app.add_task()
-        self.app.delete_task(self.app.task_id)
+        task_id = self.app.add_task()
+        self.app.delete_task(task_id)
         self.assertEqual(len(self.app.tasks), 0)
 
 if __name__ == '__main__':
