@@ -16,7 +16,7 @@ class Task:
         # Define the equality comparison for Task objects
         if isinstance(other, Task):
             # Compare task_id
-            return self.task_id == other.task_id
+            return self.task_id == other.task_id and self.task_datetime == other.task_datetime
         return False
 
     # Getter methods

@@ -27,8 +27,13 @@ class TestAssistant(unittest.TestCase):
         task_datetime = datetime(2023, 5, 15, 15, 00)
         task = Task(1, 'test', task_datetime, True, 1)
 
+        # Test that new datetime is added
         self.app.add_repeat_task(task)
         self.assertEqual(len(self.app.tasks), 1)
+
+        # Test that datetime has increased
+        later_datetime = datetime(2023, 5, 16, 15, 00)
+        self.assertEqual(self.app.tasks[0].task_datetime, later_datetime)
 
 if __name__ == '__main__':
     unittest.main()
