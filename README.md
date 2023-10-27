@@ -1,6 +1,6 @@
 # Assistant
 
-Text-based assistant  
+Text-based assistant with TTS and ChatGPT integration  
 
 # Install
 echo OPENAI_API_KEY="insert your key" >> .env
