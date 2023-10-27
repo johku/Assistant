@@ -1,6 +1,9 @@
 import unittest
+from datetime import datetime
+from datetime import timedelta
 from unittest.mock import patch
 from assistant import AssistantApp
+from task import Task
 
 class TestAssistant(unittest.TestCase):
     def setUp(self):
@@ -19,6 +22,13 @@ class TestAssistant(unittest.TestCase):
         task_id = self.app.add_task()
         self.app.delete_task(task_id)
         self.assertEqual(len(self.app.tasks), 0)
+
+    def test_add_repeat_task(self):
+        task_datetime = datetime(2023, 5, 15, 15, 00)
+        task = Task(1, 'test', task_datetime, True, 1)
+
+        self.app.add_repeat_task(task)
+        self.assertEqual(len(self.app.tasks), 1)
 
 if __name__ == '__main__':
     unittest.main()
