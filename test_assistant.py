@@ -1,6 +1,7 @@
 import unittest
 from datetime import datetime
 from datetime import timedelta
+from io import StringIO
 from unittest.mock import patch
 from assistant import AssistantApp
 from task import Task
@@ -34,6 +35,26 @@ class TestAssistant(unittest.TestCase):
         # Test that datetime has increased
         later_datetime = datetime(2023, 5, 16, 15, 00)
         self.assertEqual(self.app.tasks[0].task_datetime, later_datetime)
+
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_print_tasks(self, mock_stdout):
+        # Create some tasks in the app
+        self.app.tasks = [
+            Task(1, "Task 1", datetime(2023, 5, 15, 15, 0), False, 0),
+            Task(2, "Task 2", datetime(2023, 5, 16, 10, 30), False, 0)
+        ]
+
+        # Call the print_tasks method
+        self.app.print_tasks()
+
+        # Capture the printed output
+        printed_output = mock_stdout.getvalue()
+
+        # Define the expected output
+        expected_output = "1: Task 1 2023-05-15 15:00\n2: Task 2 2023-05-16 10:30\n"
+
+        # Assert that the printed output matches the expected output
+        self.assertEqual(printed_output, expected_output)
 
 if __name__ == '__main__':
     unittest.main()
