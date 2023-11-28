@@ -77,8 +77,12 @@ class AssistantApp:
             print("No tasks assigned")
             return
 
+        print('*******************************************')
+
         for task in self.tasks:
             print(f'{task.task_id}: {task.task_text} {task.task_datetime.strftime("%Y-%m-%d %H:%M")}')
+
+        print('*******************************************')
 
     def load_tasks(self):
         tasks = self.handler.load_tasks()
@@ -152,7 +156,7 @@ class AssistantApp:
             print("0: exit")
             print("1: add task")
             print("2: delete task")
-            print("3: list tasks")
+#            print("3: list tasks")
             print("-------------------------------------------")
             option = input("prompt: ")
 
