@@ -114,7 +114,7 @@ class AssistantApp:
                         self.add_repeat_task(task)
                         task.task_repeat_added = True
 
-                    # Add_repeat_task will run again when reminder runs
+                    # Add_repeat_task will run again when reminder runs - Fixed with task_repeat_added
                     task.task_datetime = task.task_datetime + timedelta(hours=1)
             
             time.sleep(45)
@@ -156,7 +156,7 @@ class AssistantApp:
             print("0: exit")
             print("1: add task")
             print("2: delete task")
-#            print("3: list tasks")
+            print("3: list tasks")
             print("-------------------------------------------")
             option = input("prompt: ")
 
@@ -168,8 +168,8 @@ class AssistantApp:
             elif option == "2":
                 delete_id = int(input("Enter task id: "))
                 self.delete_task(delete_id)
-#            elif option == "3":
-#                self.print_tasks()
+            elif option == "3":
+                continue
             else:
                 self.get_response(option)
 
