@@ -80,7 +80,10 @@ class AssistantApp:
         print('*******************************************')
 
         for task in self.tasks:
-            print(f'{task.task_id}: {task.task_text} {task.task_datetime.strftime("%Y-%m-%d %H:%M")}')
+            if task.task_reminder_added == True:
+                print(f'{task.task_id}: REMINDER: {task.task_text} {task.task_datetime.strftime("%Y-%m-%d %H:%M")}')
+            else:
+                print(f'{task.task_id}: {task.task_text} {task.task_datetime.strftime("%Y-%m-%d %H:%M")}')
 
         print('*******************************************')
 
@@ -114,9 +117,12 @@ class AssistantApp:
                         self.add_repeat_task(task)
                         task.task_repeat_added = True
 
-                    # Add_repeat_task will run again when reminder runs - Fixed with task_repeat_added
-                    task.task_datetime = task.task_datetime + timedelta(hours=1)
+                    if task.task_reminder_added == False:
+                        task.task_datetime = task.task_datetime + timedelta(hours=1)
+                        task.task_reminder_added = True
             
+            self.handler.update_tasks(self.tasks)
+#            self.main()
             time.sleep(45)
 
     def add_repeat_task(self, task):
@@ -139,9 +145,7 @@ class AssistantApp:
 
     def main(self):
         # Load tasks from tasks.csv
-
         self.load_tasks()
-
 
         # Start a thread to continuously check tasks
         check_tasks_thread = threading.Thread(target=self.check_tasks)
@@ -162,6 +166,7 @@ class AssistantApp:
 
             
             if option == "0":
+                self.handler.update_tasks(self.tasks)
                 break
             elif option == "1":
                 self.add_task()

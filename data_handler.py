@@ -44,6 +44,8 @@ class DataHandler:
             task_text = task.task_text
             task_repeats = task.task_repeats
             task_repeat_interval = task.task_repeat_interval
+            task_repeat_added = task.task_repeat_added
+            task_reminder_added = task.task_reminder_added
 
             year = task.task_datetime.year
             month = task.task_datetime.month
@@ -51,7 +53,7 @@ class DataHandler:
             hour = task.task_datetime.hour
             minute = task.task_datetime.minute
 
-            data = [task_id, task_text, year, month, day, hour, minute, task_repeats, task_repeat_interval]
+            data = [task_id, task_text, year, month, day, hour, minute, task_repeats, task_repeat_interval, task_repeat_added, task_reminder_added]
 
             try:
                 with open(file_name, mode='a', newline='') as file:
@@ -82,60 +84,21 @@ class DataHandler:
                     task_text = row[1]
                     task_repeats = row[7]
                     task_repeat_interval = row[8]
-                    tasks.append(Task(int(task_id), task_text, task_datetime, task_repeats, int(task_repeat_interval)))
+                    task_repeat_added = row[9]
+                    task_reminder_added = row[10]
+
+                    if task_repeat_added == 'True':
+                        task_repeat_added = True
+                    else:
+                        task_repeat_added = False
+
+                    if task_reminder_added == 'True':
+                        task_reminder_added = True
+                    else:
+                        task_reminder_added = False
+
+                    tasks.append(Task(int(task_id), task_text, task_datetime, task_repeats, int(task_repeat_interval), task_repeat_added, task_reminder_added))
 
             return tasks
         except Exception as e:
             print("No tasks to load")
-    
-
-    """
-    def load_tasks(self):
-        try:
-            script_dir = os.path.dirname(__file__)
-            file_name = os.path.join(script_dir, "tasks.csv")
-
-            self.tasks = {}  # Initialize the tasks dictionary
-
-            with open(file_name, 'r') as file:
-                csv_reader = csv.reader(file)
-
-                for row in csv_reader:
-                    task_id = int(row[0])
-                    task_text = row[1]
-                    year, month, day, hour, minute = map(int, row[2:7])
-                    task_datetime = datetime(year, month, day, hour, minute)
-
-                    self.tasks[task_id] = (task_text, task_datetime)
-
-        except FileNotFoundError:
-            print("The tasks.csv file was not found.")
-        except Exception as e:
-            print(f"An error occurred while loading tasks: {e}")
-    """
-
-    """    
-    def add_task(self, task):
-       # original format: (1, 'test', datetime.datetime(2023, 5, 15, 15, 0))
-        task_id = task[0]
-
-        task_text = task[1]
-
-        year = task[2].year
-        month = task[2].month
-        day = task[2].day
-        hour = task[2].hour
-        minute = task[2].minute
-
-        data = [task_id, task_text, year, month, day, hour, minute]
-
-        script_dir = os.path.dirname(__file__)
-        file_name = os.path.join(script_dir, "tasks.csv")
-
-        try:
-            with open(file_name, mode='a', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow(data)
-        except Exception as e:
-            print(f"Error writing to the CSV file: {e}")
-    """
