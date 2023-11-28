@@ -145,6 +145,9 @@ class AssistantApp:
         check_tasks_thread.start()
 
         while True:
+
+            self.print_tasks()
+
             print("Choose an option or use text to prompt ChatGPT")
             print("0: exit")
             print("1: add task")
@@ -153,6 +156,7 @@ class AssistantApp:
             print("-------------------------------------------")
             option = input("prompt: ")
 
+            
             if option == "0":
                 break
             elif option == "1":
@@ -160,8 +164,8 @@ class AssistantApp:
             elif option == "2":
                 delete_id = int(input("Enter task id: "))
                 self.delete_task(delete_id)
-            elif option == "3":
-                self.print_tasks()
+#            elif option == "3":
+#                self.print_tasks()
             else:
                 self.get_response(option)
 
