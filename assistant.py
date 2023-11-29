@@ -121,8 +121,8 @@ class AssistantApp:
                         task.task_datetime = task.task_datetime + timedelta(hours=1)
                         task.task_reminder_added = True
             
+            # Possibly reduntant update tasks
             self.handler.update_tasks(self.tasks)
-#            self.main()
             time.sleep(45)
 
     def add_repeat_task(self, task):
