@@ -79,6 +79,7 @@ class DataHandler:
                 # Iterate through each row in the CSV file
                 # Example row: ['1', 'test', '2023', '5', '15', '15', '0']
                 for row in csv_reader:
+
                     task_datetime = datetime(int(row[2]), int(row[3]), int(row[4]), int(row[5]), int(row[6]))
                     task_id = row[0]
                     task_text = row[1]

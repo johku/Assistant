@@ -90,11 +90,11 @@ class AssistantApp:
     def load_tasks(self):
         tasks = self.handler.load_tasks()
         
-        if tasks == None:
+        if tasks == None or len(tasks) == 0:
             return
 
         self.tasks = tasks
-
+    
         last_id = tasks[len(tasks) - 1].task_id
         self.task_id = last_id + 1
 
